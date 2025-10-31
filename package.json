@@ -1,0 +1,23 @@
+{
+  "name": "adventofcode",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/StefanF25/adventOfCode#readme",
+  "bugs": {
+    "url": "https://github.com/StefanF25/adventOfCode/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StefanF25/adventOfCode.git"
+  },
+  "license": "ISC",
+  "author": "Stefan Fuchs <kontakt@stefan-fuchs.dev>",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.2"
+  }
+}
