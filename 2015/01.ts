@@ -1,4 +1,4 @@
-const getLevel = (input) => {
+const getLevel = (input: string) => {
   let currentLevel = 0
 
   for (const char of input) {
