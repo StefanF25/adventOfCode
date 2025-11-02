@@ -4,36 +4,31 @@ import {readFileSync} from 'fs'
 const input: string = readFileSync('./inputs/05.txt', 'utf-8')
 
 const checkRules: (str: string) => boolean = (str: string): boolean => {
-    const vowelRegex = /(\w*[aeuio]\w*){3,}/i
-    const doubleRegex = /([a-z])\1/i
-    const exceptionRegex = /(ab|cd|pq|xy)+/i
+    const rule1Regex = /([a-z]{2}).*\1/
+    const rule2Regex = /([a-z]).\1/
 
-    const vowelMatch = vowelRegex.test(str)
-    const doubleMatch = doubleRegex.test(str)
-    const exceptionMatch = exceptionRegex.test(str)
+    const rule1Match = rule1Regex.test(str)
+    const rule2Match = rule2Regex.test(str)
 
-    return vowelMatch && doubleMatch && !exceptionMatch
+    return rule1Match && rule2Match
 }
 
 const checkString: (str: string) => string = (str: string): string => str + (checkRules(str) ? ' is nice' : ' is naughty')
 
 // Examples
 console.log('Example 1')
-console.log(checkString('ugknbfddgicrmopn') + ' (expected nice)')
+console.log(checkString('qjhvhtzxzqqjkmpb') + ' (expected nice)')
 console.log('Example 2')
-console.log(checkString('aaa') + ' (expected nice)')
+console.log(checkString('xxyxx') + ' (expected nice)')
 console.log('Example 3')
-console.log(checkString('jchzalrnumimnmhp') + ' (expected naughty)')
+console.log(checkString('uurcxstgmygtbstg') + ' (expected naughty)')
 console.log('Example 4')
-console.log(checkString('haegwjzuvuyypxyu') + ' (expected naughty)')
-console.log('Example 5')
-console.log(checkString('dvszwmarrgswjxmb') + ' (expected naughty)')
+console.log(checkString('ieodomkazucvgmuy') + ' (expected naughty)')
 
 let count: number = 0
 
 for (const line of input.split("\n")) {
-    const isValid = checkRules(line)
-    if (isValid) {
+    if (checkRules(line)) {
         count++
     }
 }
