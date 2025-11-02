@@ -9,13 +9,15 @@ const executeInstruction = (instruction: string) => {
             for (let y: number = +y1; y <= +y2; y++) {
                 switch (command) {
                     case 'turn on':
-                        lightsArray[x][y] = true
+                        lightsArray[x][y]++
                         break
                     case 'turn off':
-                        lightsArray[x][y] = false
+                        if (lightsArray[x][y] > 0) {
+                            lightsArray[x][y]--
+                        }
                         break
                     case 'toggle':
-                        lightsArray[x][y] = !lightsArray[x][y]
+                        lightsArray[x][y] += 2
                         break
                     default:
                         console.log(`unknown command: ${command}`)
@@ -25,12 +27,12 @@ const executeInstruction = (instruction: string) => {
     }
 }
 
-const lightsArray: boolean[][] = Array.from(Array(1000), _ => Array(1000).fill(false))
+const lightsArray: number[][] = Array.from(Array(1000), _ => Array(1000).fill(0))
 
 for (const line of input.split("\n")) {
     executeInstruction(line)
 }
 
-const countLights = lightsArray.reduce((count, row) => count + row.reduce((rowCount, light) => rowCount + +light, 0), 0)
+const totalBrightness = lightsArray.reduce((count, row) => count + row.reduce((rowCount, light) => rowCount + light, 0), 0)
 
-console.log(countLights + ' lights are on')
+console.log('total brightness is ' + totalBrightness)
