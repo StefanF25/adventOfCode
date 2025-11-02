@@ -1,25 +1,29 @@
-import { readFileSync } from 'fs'
+import getInputFile from "../util/importTxtFile.ts";
 
-// Counts 2 extra steps because of newline at end of file
-const input: string = readFileSync('./inputs/01.txt', 'utf-8')
+const input: string = getInputFile(import.meta.url, './inputs/01.txt')
 
-const findLevel: (input: string, goalLevel?: number) => void = (input: string, goalLevel: number = undefined): void => {
-    let currentLevel: number = 0
-    let currentStep: number = 0
+export const findLevel = (input: string, goalLevel: number | undefined = undefined): number => {
+    let currentLevel: number = 0, currentStep: number = 0
 
     for (const char of input) {
         currentStep++
-        if (char === "(") {
-            currentLevel++
-        } else if (char === ")") {
-            currentLevel--
+        switch (char) {
+            case "(":
+                currentLevel++
+                break
+            case ")":
+                currentLevel--
+                break
+            default:
+                // reduces step on empty input
+                currentStep--
         }
-        if (currentLevel === goalLevel) {
-            break
-        }
+        // loop breaks at goal
+        if (currentLevel === goalLevel) break
     }
 
     console.log(`Santa arrives at level ${currentLevel} at step ${currentStep}`)
+    return currentLevel
 }
 
 findLevel(input)
