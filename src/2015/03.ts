@@ -1,48 +1,51 @@
-import {readFileSync} from 'fs'
+import getInputFile from "../util/importTxtFile.ts"
 
-// Counts 2 extra steps because of newline at end of file
-const input: string = readFileSync('./inputs/03.txt', 'utf-8')
+const input: string = getInputFile(import.meta.url, './inputs/03.txt')
 
 type coordinate = [number, number]
 
-const initHome: coordinate = [0, 0]
-let currentHome1: coordinate = initHome
-let currentHome2: coordinate = initHome
-const visitedHomes: coordinate[] = [initHome]
-
 const compareCoords = (c1: coordinate, c2: coordinate): boolean => c1[0] === c2[0] && c1[1] === c2[1]
 
-const visitHome = (direction: string, currentHome: coordinate): coordinate => {
-    let newHome: coordinate = [...currentHome]
+const initHome: coordinate = [0, 0]
+let visitedHomes: coordinate[] = [initHome]
+
+const visitHome = (direction: string, currentHome: coordinate): void => {
     switch (direction) {
         case '<':
-            newHome[0] = currentHome[0] - 1
+            currentHome[0]--
             break
         case '>':
-            newHome[0] = currentHome[0] + 1
+            currentHome[0]++
             break
         case '^':
-            newHome[1] = currentHome[1] + 1
+            currentHome[1]++
             break
         case 'v':
-            newHome[1] = currentHome[1] - 1
+            currentHome[1]--
             break
-        default:
-            console.log('invalid direction:' + direction)
-            return currentHome
     }
-    if (!visitedHomes.find(home => compareCoords(home, newHome))) {
-        visitedHomes.push(newHome)
+    if (!visitedHomes.find(home => compareCoords(home, currentHome))) {
+        visitedHomes.push([...currentHome])
     }
-    return newHome
 }
 
-[...input].forEach((char, idx) => {
-    if (idx % 2 == 0) {
-        currentHome1 = visitHome(char, currentHome1)
-    } else {
-        currentHome2 = visitHome(char, currentHome2)
-    }
-})
+export const visitHomes = (inputs: string[]): number => {
+    visitedHomes = [initHome]
+    let currentHome: coordinate = [...initHome]
+    inputs.forEach((char) => {
+        visitHome(char, currentHome)
+    })
+    return visitedHomes.length
+}
 
-console.log(`Santa and Robo-Santa visited ${visitedHomes.length} homes`)
+export const visitHomes2 = (inputs: string[]): number => {
+    visitedHomes = [initHome]
+    let currentHome1: coordinate = [...initHome], currentHome2: coordinate = [...initHome]
+    inputs.forEach((char, idx) => {
+        visitHome(char, idx % 2 == 0 ? currentHome1 : currentHome2)
+    })
+    return visitedHomes.length
+}
+
+console.log(`Santa visited ${visitHomes([...input])} homes`)
+console.log(`Santa and Robo-Santa visited ${visitHomes2([...input])} homes`)

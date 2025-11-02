@@ -1,8 +1,8 @@
-import getInputFile from "../util/importTxtFile.ts";
+import getInputFile from "../util/importTxtFile.ts"
 
 const input: string = getInputFile(import.meta.url, './inputs/01.txt')
 
-export const findLevel = (input: string, goalLevel: number | undefined = undefined): number => {
+export const findLevel = (input: string, goalLevel: number | undefined = undefined): number[] => {
     let currentLevel: number = 0, currentStep: number = 0
 
     for (const char of input) {
@@ -23,7 +23,7 @@ export const findLevel = (input: string, goalLevel: number | undefined = undefin
     }
 
     console.log(`Santa arrives at level ${currentLevel} at step ${currentStep}`)
-    return currentLevel
+    return [currentLevel, currentStep]
 }
 
 findLevel(input)

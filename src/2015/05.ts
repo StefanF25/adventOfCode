@@ -1,9 +1,20 @@
-import {readFileSync} from 'fs'
+import getInputFile from "../util/importTxtFile.ts"
 
-// Counts 2 extra steps because of newline at end of file
-const input: string = readFileSync('./inputs/05.txt', 'utf-8')
+const input: string = getInputFile(import.meta.url, './inputs/05.txt')
 
-const checkRules: (str: string) => boolean = (str: string): boolean => {
+export const checkRules = (str: string): boolean => {
+    const vowelRegex = /(\w*[aeuio]\w*){3,}/i
+    const doubleRegex = /([a-z])\1/i
+    const exceptionRegex = /(ab|cd|pq|xy)+/i
+
+    const vowelMatch = vowelRegex.test(str)
+    const doubleMatch = doubleRegex.test(str)
+    const exceptionMatch = exceptionRegex.test(str)
+
+    return vowelMatch && doubleMatch && !exceptionMatch
+}
+
+export const checkRules2 = (str: string): boolean => {
     const rule1Regex = /([a-z]{2}).*\1/
     const rule2Regex = /([a-z]).\1/
 
@@ -13,22 +24,10 @@ const checkRules: (str: string) => boolean = (str: string): boolean => {
     return rule1Match && rule2Match
 }
 
-const checkString: (str: string) => string = (str: string): string => str + (checkRules(str) ? ' is nice' : ' is naughty')
-
-// Examples
-console.log('Example 1')
-console.log(checkString('qjhvhtzxzqqjkmpb') + ' (expected nice)')
-console.log('Example 2')
-console.log(checkString('xxyxx') + ' (expected nice)')
-console.log('Example 3')
-console.log(checkString('uurcxstgmygtbstg') + ' (expected naughty)')
-console.log('Example 4')
-console.log(checkString('ieodomkazucvgmuy') + ' (expected naughty)')
-
 let count: number = 0
 
 for (const line of input.split("\n")) {
-    if (checkRules(line)) {
+    if (checkRules2(line)) {
         count++
     }
 }
