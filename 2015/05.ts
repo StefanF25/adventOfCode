@@ -3,7 +3,7 @@ import {readFileSync} from 'fs'
 // Counts 2 extra steps because of newline at end of file
 const input: string = readFileSync('./inputs/05.txt', 'utf-8')
 
-const checkRules: (input: string) => boolean = (str: string): boolean => {
+const checkRules: (str: string) => boolean = (str: string): boolean => {
     const vowelRegex = /(\w*[aeuio]\w*){3,}/i
     const doubleRegex = /([a-z])\1/i
     const exceptionRegex = /(ab|cd|pq|xy)+/i
@@ -15,7 +15,7 @@ const checkRules: (input: string) => boolean = (str: string): boolean => {
     return vowelMatch && doubleMatch && !exceptionMatch
 }
 
-const checkString: (input: string) => string = (str: string): string => str + (checkRules(str) ? ' is nice' : ' is naughty')
+const checkString: (str: string) => string = (str: string): string => str + (checkRules(str) ? ' is nice' : ' is naughty')
 
 // Examples
 console.log('Example 1')
