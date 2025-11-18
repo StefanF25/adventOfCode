@@ -1,35 +1,21 @@
-import getInputFile from "../util/importTxtFile.ts"
-
-const input: string = getInputFile(import.meta.url, './inputs/05.txt')
-
 export const checkRules = (str: string): boolean => {
-    const vowelRegex = /(\w*[aeuio]\w*){3,}/i
-    const doubleRegex = /([a-z])\1/i
-    const exceptionRegex = /(ab|cd|pq|xy)+/i
+  const vowelRegex = /(\w*[aeuio]\w*){3,}/i
+  const doubleRegex = /([a-z])\1/i
+  const exceptionRegex = /(ab|cd|pq|xy)+/i
 
-    const vowelMatch = vowelRegex.test(str)
-    const doubleMatch = doubleRegex.test(str)
-    const exceptionMatch = exceptionRegex.test(str)
+  const vowelMatch = vowelRegex.test(str)
+  const doubleMatch = doubleRegex.test(str)
+  const exceptionMatch = exceptionRegex.test(str)
 
-    return vowelMatch && doubleMatch && !exceptionMatch
+  return vowelMatch && doubleMatch && !exceptionMatch
 }
 
 export const checkRules2 = (str: string): boolean => {
-    const rule1Regex = /([a-z]{2}).*\1/
-    const rule2Regex = /([a-z]).\1/
+  const rule1Regex = /([a-z]{2}).*\1/
+  const rule2Regex = /([a-z]).\1/
 
-    const rule1Match = rule1Regex.test(str)
-    const rule2Match = rule2Regex.test(str)
+  const rule1Match = rule1Regex.test(str)
+  const rule2Match = rule2Regex.test(str)
 
-    return rule1Match && rule2Match
+  return rule1Match && rule2Match
 }
-
-let count: number = 0
-
-for (const line of input.split("\n")) {
-    if (checkRules2(line)) {
-        count++
-    }
-}
-
-console.log(count + ' strings are nice')
